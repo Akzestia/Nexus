@@ -1,0 +1,76 @@
+input[type="text"]{
+    position: relative;
+    width: 80%;
+    height: 2rem;
+    line-height: 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-bottom: 2px solid var(--theme-color-border-i);
+    background-color: transparent;
+    margin-left: auto;
+    margin-right: auto;
+    outline: none;
+    padding: 0.4rem 0.5rem 0 0.719rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    color: var(--theme-color-font);
+    transition: all .15s linear;
+    z-index: 2;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+input[type="text"]:focus{
+    border-bottom: 2px solid var(--theme-color-border-focus-i);
+}
+
+input[type="password"]{
+    position: relative;
+    width: 80%;
+    height: 2rem;
+    line-height: 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-bottom: 2px solid var(--theme-color-border-i);
+    background-color: transparent;
+    margin-left: auto;
+    margin-right: auto;
+    outline: none;
+    padding: 0.4rem 0.5rem 0 0.4rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    color: var(--theme-color-font);
+    transition: all .15s linear;
+    z-index: 2;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+input[type="password"]:focus{
+    border-bottom: 2px solid var(--theme-color-border-focus-i);
+}
+
+
+.input-x-label{
+    text-align: left;
+    user-select: none;
+    position: absolute;
+    color: var(--theme-color-font);
+    opacity: 0.8;
+    transition: all .35s;
+    z-index: 1;
+    margin-top: var(--m-top);/*-12.4*/
+    margin-left: var(--m-left);
+    letter-spacing: 0.1rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    width: 10.5rem;
+}
+
+.input-x-label-focus{
+    color: var(--theme-color-font);
+    opacity: 1;
+    font-size: 0.7rem;
+    letter-spacing: 0.1rem;
+    margin-top: 0.4rem;
+    margin-left: var(-2rem);
+    display: flex;
+}
+

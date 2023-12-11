@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+option csharp_namespace = "NexusServergRPC";
+
+package nexusdb;
+
+service NexusDb{
+    rpc SignUpUser(stream SignUpRequest) returns (stream SignUpResponse);
+
+    rpc LoginUser(stream LoginUserRequest) returns (stream LoginUserResponse);
+
+    rpc LogOutUser(LogOutRequest) returns (LogOutResponse);
+}
+
+message LogOutRequest{
+    string UserName = 1;
+}
+
+message LogOutResponse{
+    bool Response = 1;
+}
+
+message LoginUserRequest{
+    string UserName = 1;
+    string UserPassword = 2;
+}
+
+message LoginUserResponse{
+    bool Response = 1;
+}
+
+message SignUpRequest{
+    string UserName = 1;
+    string UserEmail = 2;
+    string UserPassword = 3;
+}
+
+message SignUpResponse{
+    bool Response = 1;
+}

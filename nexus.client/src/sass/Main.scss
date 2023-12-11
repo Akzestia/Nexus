@@ -1,0 +1,153 @@
+:root{
+    --theme-color-border: #373e47;
+    --theme-color-font: #373e47;
+    --theme-font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    --theme-color-background: white;
+    --theme-color-font-icon: black;
+
+
+    --theme-color-border-focus-i: aquamarine;
+    --theme-color-border-i: #373e47;
+
+    --theme-color-selection: aquamarine;
+
+    --m-top: 1.7rem;
+    --m-left: 2.8rem;
+
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;;
+}
+
+.x-div-v{
+    display: flex;
+    flex-direction: column;
+}
+
+.x-div-h{
+   display: flex;
+   flex-direction: row; 
+}
+
+.separator-x-div{
+    margin-bottom: 0.8rem;
+}
+
+html{
+    
+    position: relative;
+    z-index: 5;
+    transition: all .0s;
+    background-color: var(--theme-color-background);
+    ::selection{
+        background-color: var(--theme-color-selection);
+    }
+}
+body{
+    transition: all .0s;
+    background-color: var(--theme-color-background);
+}
+::-ms-reveal {
+    display: none;
+}
+
+
+.theme-icon{
+    height: 2rem;
+    width: 2rem;
+    position: absolute;
+    right: 1%;
+    top: 0.5rem;
+    font-size: 2rem;
+    color: var(--theme-color-font-icon);
+    transition: all .35s;
+    z-index: 6;
+}
+
+
+  
+  button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: var(--theme-color-background);
+    border-color: #373e47;
+    cursor: pointer;
+    color: var(--theme-color-font);
+    transition: all .35s;
+  }
+
+  button:hover {
+    border-color: #646cff;
+  }
+  
+
+
+  .redirect-x-label{
+    position: relative;
+    margin-top: -0.5rem !important;
+    font-size: 1rem !important;
+    font-family: var(--theme-font-family);
+    width: 100%;
+    text-align: center;
+    z-index: 0;
+
+    span{
+        position: relative;
+        color: #646cff;
+        width: auto;
+        transition: all .15s linear;
+        z-index: 1;
+        
+    }
+    span:hover{
+        cursor: pointer;
+        color: aqua;
+    }
+
+  }
+
+  .dark-x-div{
+    top: -200%;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-color: black;
+    z-index: 7;
+    opacity: 0.96;
+    border: flex;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    transition: all .75s ease-in;
+
+    .loading-x-icon{
+        width: 8rem;
+        height: 8rem;
+        position: absolute;
+        opacity: 1;
+        transition: all .35s;
+        z-index: 8;
+        color: #646cff;
+        top: 30%;
+        transform: rotate(0deg);
+    }
+
+    .loading-x-label{
+        position: absolute;
+        top: 45%;
+        font-size: 1.8rem;
+        opacity: 1;
+        transition: all .35s;
+        z-index: 8;
+        color: #646cff;
+        user-select: none;
+    }
+}
+
+.active-x-dark{
+    top: 0;
+}

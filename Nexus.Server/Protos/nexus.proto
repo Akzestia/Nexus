@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+option csharp_namespace = "Nexus.Server";
+
+package nexus;
+
+service Nexus{
+    rpc CreateMsg(CreateMsgRequest) returns (CreateMsgResponse){}
+
+    rpc Connect(stream ConnectedX) returns (stream CreateMsgRequest){};
+
+    rpc Broadcast(stream MessageRequest) returns (stream MessageResponse) {}
+
+    rpc TestConnection(EmptyX) returns (EmptyX);
+
+    rpc SendMessageToStreams(CreateMsgRequest) returns (EmptyX);
+}
+
+message CreateMsgRequest{
+    string MsgText = 1;
+    bytes ExtraContent = 2;
+    string ReceiverEmail = 3;
+    string ReceiverName = 4;
+}
+
+message CreateMsgResponse{
+    string content = 1;
+    bytes ExtraContent = 2;
+    string ReceiverEmail = 3;
+    string ReceiverName = 4;
+}
+
+message EstablishConnectionRequest{
+    string SenderEmail = 1;
+    string SenderName = 2;
+}
+
+message EstablishConnectionResponse{
+    bool isConnected = 1;
+}
+
+
+message MessageRequest {
+    string message = 1;
+}
+
+message MessageResponse {
+    string message = 1;
+}
+
+message ConnectedX{
+    string UserId = 1;
+}
+
+message EmptyX {}

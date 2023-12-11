@@ -1,0 +1,6 @@
+@Nexus.Server_HostAddress = http://localhost:5219
+
+GET {{Nexus.Server_HostAddress}}/user/login
+Accept: application/json
+
+###
