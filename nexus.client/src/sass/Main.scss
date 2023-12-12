@@ -5,13 +5,14 @@
     --theme-color-background: white;
     --theme-color-font-icon: black;
 
+    --theme-color-icon-focus: #646cff;
 
     --theme-color-border-focus-i: aquamarine;
     --theme-color-border-i: #373e47;
 
     --theme-color-selection: aquamarine;
 
-    --m-top: 1.7rem;
+    --m-top: 2.8rem;
     --m-left: 2.8rem;
 
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;;
@@ -62,6 +63,33 @@ body{
     z-index: 6;
 }
 
+.send-icon{
+    position: absolute;
+    color: var(--theme-color-font);
+    height: 1.8rem;
+    width: 1.8rem;
+    bottom: 1.6rem;
+    margin-left: 1rem;
+    transition: all .15s ease-in;
+}
+.send-icon:hover{
+    fill: var(--theme-color-icon-focus);
+    stroke: #646cff;
+}
+.send-file-icon{
+    position: absolute;
+    color: var(--theme-color-font);
+    height: 1.8rem;
+    width: 1.8rem;
+    bottom: 1.6rem;
+    margin-left: 3.4rem;
+    transition: all .15s ease-in;
+}
+
+.send-file-icon:hover{
+    fill: var(--theme-color-icon-focus);
+    stroke: #646cff;
+}
 
   
   button {
@@ -109,7 +137,7 @@ body{
   }
 
   .dark-x-div{
-    top: -200%;
+    top: -250%;
     left: 0;
     position: absolute;
     width: 100%;
@@ -151,3 +179,35 @@ body{
 .active-x-dark{
     top: 0;
 }
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 0.2rem;
+    height: 0rem;
+    background-color: transparent;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: transparent; 
+    margin-top: .46rem;
+    margin-bottom: .46rem;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    max-height: 4rem;
+    border-radius: 2rem;
+    transition: all .35s linear;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: aqua; 
+  }
+
+  .scrolling::-webkit-scrollbar-thumb{
+    background-color: aqua; 
+  }

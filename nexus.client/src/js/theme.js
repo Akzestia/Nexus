@@ -20,14 +20,16 @@ export async function SetTheme(){
     r.style.setProperty("--theme-color-border-focus-i", "aqua");
     r.style.setProperty("--theme-color-border-i", "#373e47");
     r.style.setProperty("--theme-color-font-icon", "black");
+    r.style.setProperty("--theme-color-icon-focus", "#646cff");
   }
   else{
     r.style.setProperty("--theme-color-border", "#373e47");
-    r.style.setProperty("--theme-color-font", "#8300ff");
+    r.style.setProperty("--theme-color-font", "#646cff");
     r.style.setProperty("--theme-color-background", "black");
-    r.style.setProperty("--theme-color-border-focus-i", "#8300ff");
+    r.style.setProperty("--theme-color-border-focus-i", "#646cff");
     r.style.setProperty("--theme-color-border-i", "#373e47");
     r.style.setProperty("--theme-color-font-icon", "white");
+    r.style.setProperty("--theme-color-icon-focus", "aquamarine");
   }
 }
 
@@ -47,6 +49,7 @@ export async function DarkLightTheme() {
     r.style.setProperty("--theme-color-border-focus-i", "aqua");
     r.style.setProperty("--theme-color-border-i", "#373e47");
     r.style.setProperty("--theme-color-font-icon", "black");
+    r.style.setProperty("--theme-color-icon-focus", "#646cff");
     const response = await fetch(`darkmode/toggle/${false}`, { method: "POST"});
     const data = await response.json();
     isDark = data;
@@ -60,6 +63,7 @@ export async function DarkLightTheme() {
   r.style.setProperty("--theme-color-border-focus-i", "#8300ff");
   r.style.setProperty("--theme-color-border-i", "#373e47");
   r.style.setProperty("--theme-color-font-icon", "white");
+  r.style.setProperty("--theme-color-icon-focus", "aquamarine");
   const response = await fetch(`darkmode/toggle/${true}`, { method: "POST"});
   const data = await response.json();
   isDark = data;

@@ -1,103 +1,123 @@
-import { TestPatterns } from './inputs';
+import { TestPatterns } from "./inputs";
 
 export async function SignUpUser() {
-
-//   alert(TestPatterns());
-//   return;
+  //   alert(TestPatterns());
+  //   return;
   var userName = "Alex";
   var userEmail = "Alex@gmail.com";
 
   var user_data = {
-        userName: document.getElementById('UserName-X').value,
-        userEmail: document.getElementById('UserEmail-X').value,
-        userPassword: document.getElementById('Password-X').value,
+    userName: document.getElementById("UserName-X").value,
+    userEmail: document.getElementById("UserEmail-X").value,
+    userPassword: document.getElementById("Password-X").value,
   };
 
   let timer;
   let turn = 0;
- 
-  var darkmode = document.querySelector('.dark-x-div');
-  darkmode.classList.add('active-x-dark');
-  var icon = document.querySelector('.loading-x-icon');
-  icon.style.transform = "rotate("+ (turn) +"deg)";
-  timer = setInterval(() =>{
-        icon.style.transform = "rotate("+ (turn) +"deg)";
-        turn += 10;
+
+  var darkmode = document.querySelector(".dark-x-div");
+  darkmode.classList.add("active-x-dark");
+  var icon = document.querySelector(".loading-x-icon");
+  icon.style.transform = "rotate(" + turn + "deg)";
+  timer = setInterval(() => {
+    icon.style.transform = "rotate(" + turn + "deg)";
+    turn += 10;
   }, 10);
 
-  const response = await fetch(`server/connect`, {
+  const response = await fetch(`server/signup`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user_data),
+
   });
 
   const data = await response.json();
 
-  var loading_label = document.querySelector('.loading-x-label');
-  
-  const clickHandler = (e) => {
-        e.target.classList.remove('active-x-dark');
-        setTimeout(function() {
-            loading_label.innerHTML = "Connecting to server";
-        }, 750);
-        e.target.removeEventListener('click', clickHandler);
-    };
+  var loading_label = document.querySelector(".loading-x-label");
 
-  if(!data){
-        loading_label.innerHTML = "Connection Failed :(";
-        clearInterval(timer);
-        darkmode.addEventListener('click', clickHandler);
-  }
-  else{
-        
-        loading_label.innerHTML = "Redirecting to Nexus ";
-        setTimeout(function() {
-                window.location = "/nexus";
-        }, 1500);
-        setTimeout(function() {
-                loading_label.innerHTML = "Connecting to server";
-                clearInterval(timer);
-          }, 5000);
-         
+  const clickHandler = (e) => {
+    e.target.classList.remove("active-x-dark");
+    setTimeout(function () {
+      loading_label.innerHTML = "Connecting to server";
+    }, 750);
+    e.target.removeEventListener("click", clickHandler);
+  };
+
+  if (!data) {
+    loading_label.innerHTML = "Connection Failed :(";
+    clearInterval(timer);
+    darkmode.addEventListener("click", clickHandler);
+  } else {
+    loading_label.innerHTML = "Redirecting to Nexus ";
+    setTimeout(function () {
+      window.location = "/nexus";
+    }, 1500);
+    setTimeout(function () {
+      loading_label.innerHTML = "Connecting to server";
+      clearInterval(timer);
+    }, 5000);
   }
 }
 
-export async  function LoginUser(){
+export async function LoginUser() {
+  var user_data = {
+    userName: document.getElementById("UserName-X").value,
+    userPassword: document.getElementById("Password-X").value,
+  };
 
 
-        var user_data = {
-                userName: document.getElementById('UserName-X').value,
-                userPassword: document.getElementById('Password-X').value,
-        };
+  let timer;
+  let turn = 0;
+
+  
+  var darkmode = document.querySelector(".dark-x-div");
+  darkmode.classList.add("active-x-dark");
+  var icon = document.querySelector(".loading-x-icon");
+  icon.style.transform = "rotate(" + turn + "deg)";
+  timer = setInterval(() => {
+    icon.style.transform = "rotate(" + turn + "deg)";
+    turn += 10;
+  }, 10);
 
 
-        const response = await fetch(`server/login`, {
-                method: "POST",
-                headers: {
-                        "Content-Type": "application/json",
-                },
-                body: JSON.stringify(user_data)
-        });
+  const response = await fetch(`server/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user_data),
+  });
 
-        const data = await response.json();
+  const data = await response.json();
 
-        console.log('response ' + data);
+  console.log("response " + data);
 
+  var loading_label = document.querySelector(".loading-x-label");
 
-        console.log('dispose');
-        // const responsex = await fetch(`server/send`, {
-        //         method: "POST",
-        //         headers: {
-        //                 'Content-Type': 'application/json',
-        //                 'Accept': 'application/json'
-        //         }
-        // });
+  const clickHandler = (e) => {
+    e.target.classList.remove("active-x-dark");
+    setTimeout(function () {
+      loading_label.innerHTML = "Connecting to server";
+    }, 750);
+    e.target.removeEventListener("click", clickHandler);
+  };
 
+  if (!data) {
+    loading_label.innerHTML = "Connection Failed :(";
+    clearInterval(timer);
+    darkmode.addEventListener("click", clickHandler);
+  } else {
+    loading_label.innerHTML = "Redirecting to Nexus ";
+    setTimeout(function () {
+      window.location = "/nexus";
+    }, 1500);
+    setTimeout(function () {
+      loading_label.innerHTML = "Connecting to server";
+      clearInterval(timer);
+    }, 5000);
+  }
 
-        // const datax = await responsex.json();
-
-        // console.log(datax);
-        // setTimeout(async () =>{
-               
-
-        //         console.log(await response.json());
-        // }, 1)
+  console.log("dispose");
 }

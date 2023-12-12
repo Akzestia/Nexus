@@ -7,4 +7,4 @@ export async function SendMsg() {
     const data = await response.json();
   
     console.log(data);
-  }
+}

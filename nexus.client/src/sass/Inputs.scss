@@ -10,7 +10,7 @@ input[type="text"]{
     margin-left: auto;
     margin-right: auto;
     outline: none;
-    padding: 0.4rem 0.5rem 0 0.719rem;
+    padding: 0.4rem 0.719rem 0 0.719rem;
     margin-top: 1rem;
     margin-bottom: 1rem;
     color: var(--theme-color-font);
@@ -35,7 +35,7 @@ input[type="password"]{
     margin-left: auto;
     margin-right: auto;
     outline: none;
-    padding: 0.4rem 0.5rem 0 0.4rem;
+    padding: 0.4rem 0.719rem 0 0.719rem;
     margin-top: 1rem;
     margin-bottom: 1rem;
     color: var(--theme-color-font);
@@ -69,7 +69,7 @@ input[type="password"]:focus{
     opacity: 1;
     font-size: 0.7rem;
     letter-spacing: 0.1rem;
-    margin-top: 0.4rem;
+    margin-top: 1.6rem;
     margin-left: var(-2rem);
     display: flex;
 }
