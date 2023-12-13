@@ -1,6 +1,9 @@
-import { TestPatterns } from "./inputs";
+import { TestPatterns, TestPatternsLogin } from "./inputs";
 
 export async function SignUpUser() {
+
+  if(!TestPatterns())
+    return;
 
   var user_data = {
     userName: document.getElementById("UserName-X").value,
@@ -41,10 +44,12 @@ export async function SignUpUser() {
     e.target.removeEventListener("click", clickHandler);
   };
 
-  if (!data) {
-    loading_label.innerHTML = "Connection Failed :(";
-    clearInterval(timer);
-    darkmode.addEventListener("click", clickHandler);
+  if (!data.response) {
+    setTimeout(function () {
+      loading_label.innerHTML = data.responseMessage;
+      clearInterval(timer);
+      darkmode.addEventListener("click", clickHandler);
+    }, 2000);
   } else {
     loading_label.innerHTML = "Redirecting to Nexus ";
     setTimeout(function () {
@@ -60,9 +65,14 @@ export async function SignUpUser() {
         document.getElementById("UserName-X").value = "";
         document.getElementById("UserEmail-X").value = "";
         document.getElementById("Password-X").value = "";
+        document.getElementById("Password-R").value = "";
 }
 
 export async function LoginUser() {
+
+  if(!TestPatternsLogin())
+    return;
+
   var user_data = {
     userName: document.getElementById("UserName-X").value,
     userPassword: document.getElementById("Password-X").value,
@@ -93,8 +103,7 @@ export async function LoginUser() {
 
   const data = await response.json();
 
-  console.log("response " + data);
-
+  console.log(data);
   var loading_label = document.querySelector(".loading-x-label");
 
   const clickHandler = (e) => {
@@ -105,10 +114,12 @@ export async function LoginUser() {
     e.target.removeEventListener("click", clickHandler);
   };
 
-  if (!data) {
-    loading_label.innerHTML = "Connection Failed :(";
-    clearInterval(timer);
-    darkmode.addEventListener("click", clickHandler);
+  if (!data.response) {
+    setTimeout(function () {
+      loading_label.innerHTML = data.responseMessage;
+      clearInterval(timer);
+      darkmode.addEventListener("click", clickHandler);
+    }, 2000);
   } else {
     loading_label.innerHTML = "Redirecting to Nexus ";
     setTimeout(function () {
@@ -117,9 +128,17 @@ export async function LoginUser() {
     setTimeout(function () {
       loading_label.innerHTML = "Connecting to server";
       clearInterval(timer);
+      darkmode.addEventListener("click", clickHandler);
     }, 5000);
   }
 
   document.getElementById("UserName-X").value = "";
   document.getElementById("Password-X").value = "";
+}
+
+export async function LogOut(){
+
+  const response = await fetch(`server/close`, {
+    method: "POST",
+  });
 }

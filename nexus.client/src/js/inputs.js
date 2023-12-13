@@ -162,3 +162,8 @@ export function TestPatterns()
    password_pattern.test(document.getElementById('Password-R').value) && email_pattern.test(document.getElementById('UserEmail-X').value)
     && user_pattern.test(document.getElementById('UserName-X').value);
 }
+
+export function TestPatternsLogin()
+{
+  return password_pattern.test(document.getElementById('Password-X').value) && user_pattern.test(document.getElementById('UserName-X').value);
+}

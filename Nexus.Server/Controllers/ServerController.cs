@@ -12,6 +12,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
+using NexusServergRPC;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Nexus.Server.Controllers
 {
@@ -39,11 +42,8 @@ namespace Nexus.Server.Controllers
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Cookies");
 
             await Request.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-            bool? isLoggedIn = await listener.Login(user);
-            if (isLoggedIn == true)
-            {
+            LoginUserResponse isLoggedIn = await listener.Login(user);
 
-            }
             return new JsonResult(isLoggedIn);
         }
 

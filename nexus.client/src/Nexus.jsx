@@ -1,7 +1,7 @@
 import React from "react";
 import { DarkLightTheme, SetTheme } from "./js/theme";
 import { LabelFocus } from "./js/inputs";
-import { SignUpUser } from "./js/auth";
+import { LogOut } from "./js/auth";
 import { WiMoonAltThirdQuarter } from "react-icons/wi";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { SetScroll, SetMessageInput } from './js/animation';
@@ -78,7 +78,7 @@ export default class Nexus extends React.Component{
                 </div>
 
                 <div className="side-x-div">
-
+                    <button onClick={LogOut}>Click</button>
                 </div>
             </div>
         </>

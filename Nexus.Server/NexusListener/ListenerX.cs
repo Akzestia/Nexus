@@ -23,6 +23,9 @@ namespace Nexus.Server.NexusListener
         private static bool? IsLoggedIn = null;
         private static bool? IsSignedUp = null;
         private static bool IsConnected = false;
+
+        private static string? responseMessage = "";
+
         private static Nexus.NexusClient? client = null;
         private static NexusDb.NexusDbClient? clientDb = null;
         private static AsyncDuplexStreamingCall<ConnectedX, CreateMsgRequest>? call_messages = null;
@@ -56,6 +59,7 @@ namespace Nexus.Server.NexusListener
                             await foreach (var response in call_login.ResponseStream.ReadAllAsync())
                             {
                                 IsLoggedIn = response.Response;
+                                responseMessage = response.ResponseMessage;
                                 await Console.Out.WriteLineAsync($"Login: {response.Response}");
                             }
                         }
@@ -74,6 +78,39 @@ namespace Nexus.Server.NexusListener
             t_call_login.Start();
         }
 
+
+        private static void StartThread_SignUp()
+        {
+            t_call_signup = new Thread(async () =>
+            {
+                while (true)
+                {
+                    if (call_signup != null)
+                    {
+                        try
+                        {
+                            await foreach (var response in call_signup.ResponseStream.ReadAllAsync())
+                            {
+                                IsSignedUp = response.Response;
+                                responseMessage = response.ResponseMessage;
+                                await Console.Out.WriteLineAsync($"SignUp: {response.Response}");
+                            }
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+                    else
+                    {
+                        //await Console.Out.WriteLineAsync("Null login");
+                    }
+                }
+            });
+
+            t_call_signup.Start();
+        }
+
         private static void TerminateThread_Login()
         {
             try
@@ -84,6 +121,19 @@ namespace Nexus.Server.NexusListener
                 Console.WriteLine("X - uwux");
             }
             
+        }
+
+        private static void TerminateThread_SignUp()
+        {
+            try
+            {
+                t_call_signup.Abort();
+            }
+            catch
+            {
+                Console.WriteLine("X - uwux");
+            }
+
         }
 
         private static void ResumeThread_Login()
@@ -108,10 +158,6 @@ namespace Nexus.Server.NexusListener
         public ListenerX() {
             try
             {
-                Name = "Azure";
-                Email = "Azure@gmail.com";
-
-
                 try
                 {
                     channel = GrpcChannel.ForAddress("https://localhost:7046");
@@ -119,58 +165,8 @@ namespace Nexus.Server.NexusListener
                     clientDb = new NexusDb.NexusDbClient(channel);
 
                     Task.Run(async () => { await EstablishConnection(); });
-                    //t_call_login = new Thread(async () =>
-                    //{
-                    //    while (!t_call_login_cancellationTokenSource.Token.IsCancellationRequested)
-                    //    {
-                    //        if (call_login != null)
-                    //        {
-                    //            try
-                    //            {
-                    //                await foreach (var response in call_login.ResponseStream.ReadAllAsync())
-                    //                {
-                    //                    IsLoggedIn = response.Response;
-                    //                    await Console.Out.WriteLineAsync($"Login: {response.Response}");
-                    //                }
-                    //            }
-                    //            catch
-                    //            {
 
-                    //            }
-                    //        }
-                    //        else
-                    //        {
-                    //            //await Console.Out.WriteLineAsync("Null login");
-                    //        }
-                    //    }
-                    //});
-
-                    t_call_signup = new Thread(async () =>
-                    {
-                        while (true)
-                        {
-                            if (call_signup != null)
-                            {
-                                try
-                                {
-                                    await foreach (var response in call_signup.ResponseStream.ReadAllAsync())
-                                    {
-                                        IsSignedUp = response.Response;
-                                        await Console.Out.WriteLineAsync($"Sign Up: {response.Response}");
-                                    }
-                                }
-                                catch
-                                {
-
-                                }
-                               
-                            }
-                            else
-                            {
-                                //await Console.Out.WriteLineAsync("Null signup");
-                            }
-                        }
-                    });
+                  
 
                     t_call_messages = new Thread(async () =>
                     {
@@ -275,13 +271,16 @@ namespace Nexus.Server.NexusListener
             await SendMsg(message);
         }
 
-        public async Task<bool?> SignUp(S_User user)
+        public async Task<SignUpResponse> SignUp(S_User user)
         {
             if(!await EstablishConnection())
-                return false;
+                return new SignUpResponse { Response = false, ResponseMessage = "Can't connect to server :(" }; ;
+
+            StartThread_SignUp();
+
 
             IsSignedUp = null;
-            t_call_signup?.Start();
+           
             var metadata = new Metadata();
             metadata.Add("UserName", user.UserName);
             metadata.Add("UserEmail", user.UserEmail);
@@ -289,25 +288,38 @@ namespace Nexus.Server.NexusListener
 
             call_signup = clientDb.SignUpUser(metadata);
 
-            while (IsSignedUp == null)
+            int counter = 0;
+
+            while (IsSignedUp == null && counter < 15)
             {
                 await Console.Out.WriteLineAsync("Waiting for server response ^_^ <SignUp>");
+                counter++;
                 Thread.Sleep(500);
             }
 
-            if (IsSignedUp == false)
-                await call_signup.RequestStream.CompleteAsync();
 
-            return IsSignedUp;
+            if (counter == 15)
+                IsSignedUp = false;
+
+            if (IsSignedUp == false)
+            {
+                await call_signup.RequestStream.CompleteAsync();
+                TerminateThread_SignUp();
+                return new SignUpResponse { Response = (bool)IsSignedUp, ResponseMessage = responseMessage };
+            }
+
+            return new SignUpResponse { Response = true, ResponseMessage = responseMessage }; ;
         }
 
 
-        public async Task<bool?> Login(L_User user)
+
+        public async Task<LoginUserResponse> Login(L_User user)
         {
             if (!await EstablishConnection())
-                return false;
+                return new LoginUserResponse { Response = false, ResponseMessage = "Can't connect to server :("};
 
             StartThread_Login();
+
             IsLoggedIn = null;
             var metadata = new Metadata();
             metadata.Add("UserName", user.UserName);
@@ -330,9 +342,12 @@ namespace Nexus.Server.NexusListener
             {
                 await call_login.RequestStream.CompleteAsync();
                 TerminateThread_Login();
+                return new LoginUserResponse { Response = (bool)IsLoggedIn, ResponseMessage = responseMessage};
             }
 
-            return IsLoggedIn;
+            await call_login.RequestStream.WriteAsync(new LoginUserRequest { });
+
+            return new LoginUserResponse { Response = true, ResponseMessage = responseMessage };
         }
 
 
