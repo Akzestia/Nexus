@@ -1,10 +1,6 @@
 import { TestPatterns } from "./inputs";
 
 export async function SignUpUser() {
-  //   alert(TestPatterns());
-  //   return;
-  var userName = "Alex";
-  var userEmail = "Alex@gmail.com";
 
   var user_data = {
     userName: document.getElementById("UserName-X").value,
@@ -59,6 +55,11 @@ export async function SignUpUser() {
       clearInterval(timer);
     }, 5000);
   }
+
+
+        document.getElementById("UserName-X").value = "";
+        document.getElementById("UserEmail-X").value = "";
+        document.getElementById("Password-X").value = "";
 }
 
 export async function LoginUser() {
@@ -71,7 +72,7 @@ export async function LoginUser() {
   let timer;
   let turn = 0;
 
-  
+
   var darkmode = document.querySelector(".dark-x-div");
   darkmode.classList.add("active-x-dark");
   var icon = document.querySelector(".loading-x-icon");
@@ -119,5 +120,6 @@ export async function LoginUser() {
     }, 5000);
   }
 
-  console.log("dispose");
+  document.getElementById("UserName-X").value = "";
+  document.getElementById("Password-X").value = "";
 }

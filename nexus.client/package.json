@@ -18,7 +18,8 @@
     "react-icons": "^4.12.0",
     "react-router-dom": "^6.20.1",
     "remixicon": "^3.6.0",
-    "scss": "^0.2.4"
+    "scss": "^0.2.4",
+    "uint8-to-base64": "^0.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",

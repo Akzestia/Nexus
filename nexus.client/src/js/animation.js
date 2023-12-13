@@ -33,7 +33,7 @@ export function SetMessageInput(){
     
     textarea.addEventListener('input', function () {
       this.style.height = 'auto'; 
-      this.style.height = this.scrollHeight-15.5 + 'px'; 
+      this.style.height = this.scrollHeight-16 + 'px'; 
     });
     
 }

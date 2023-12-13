@@ -24,7 +24,7 @@
     position: relative;
     width: 95%;
     min-width: 95%;
-    height: 7rem;
+    height: 5.5rem;
     margin: 1rem auto 1rem 3%;
     border-radius: 0.58rem;
     border: 2px solid var(--theme-color-border);
@@ -36,21 +36,21 @@
 
     img{
         border-radius: 60%;
-        width: 5rem;
-        height: 5rem;
+        width: 3.5rem;
+        height: 3.5rem;
         background-color: aquamarine;
         margin: 1rem 1rem 1rem .8rem;
     }
 
     .user-name{
-        margin-top: 1.5rem;
+        margin-top: 1.2rem;
         font-size: 1.1rem;
         position: relative;
         color: var(--theme-color-font);
     }
 
     .last-message{
-        margin-top: 1rem;
+        margin-top: 0.35rem;
         position: relative;
         opacity: 0.8;
         color: var(--theme-color-font);
@@ -92,7 +92,7 @@
         .textarea-n{
             margin: 1.4rem 0 1.5rem 1rem;
             min-width: 30rem;
-            height: 36.5px;
+            height: 48px;
             position: relative;
             color: var(--theme-color-font);
             width: 85%;
@@ -110,6 +110,7 @@
             vertical-align:middle;
             padding-bottom: 0.2rem;
             transition: all .15s ease-in;
+            padding-top: 0.8rem;
         }
 
         .textarea-n:focus{

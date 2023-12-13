@@ -5,7 +5,7 @@ import { SignUpUser } from "./js/auth";
 import { WiMoonAltThirdQuarter } from "react-icons/wi";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { SetScroll, SetMessageInput } from './js/animation';
-import {SendMsg} from './js/SendReceive';
+import {SendMsg, SetFilesInput} from './js/SendReceive';
 
 import { BsSendFill } from "react-icons/bs";
 import { BsFileEarmarkArrowUpFill } from "react-icons/bs";
@@ -28,6 +28,7 @@ export default class Nexus extends React.Component{
     componentDidMount = async () => {
         SetScroll();
         SetMessageInput();
+        SetFilesInput();
     }
 
 

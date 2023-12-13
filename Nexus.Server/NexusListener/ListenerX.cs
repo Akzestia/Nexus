@@ -9,6 +9,7 @@ using Grpc.AspNetCore.Server;
 using Microsoft.AspNetCore.Mvc;
 using NexusServergRPC;
 using Nexus.Server.Models;
+using Nexus.Server.Encryption;
 
 namespace Nexus.Server.NexusListener
 {
@@ -284,7 +285,7 @@ namespace Nexus.Server.NexusListener
             var metadata = new Metadata();
             metadata.Add("UserName", user.UserName);
             metadata.Add("UserEmail", user.UserEmail);
-            metadata.Add("UserPassword", user.UserPassword);
+            metadata.Add("UserPassword", NexusCipher.ToSHA256(user.UserPassword));
 
             call_signup = clientDb.SignUpUser(metadata);
 
@@ -310,7 +311,7 @@ namespace Nexus.Server.NexusListener
             IsLoggedIn = null;
             var metadata = new Metadata();
             metadata.Add("UserName", user.UserName);
-            metadata.Add("UserPassword", user.UserPassword);
+            metadata.Add("UserPassword", NexusCipher.ToSHA256(user.UserPassword));
 
             call_login = clientDb.LoginUser(metadata);
 
@@ -332,6 +333,21 @@ namespace Nexus.Server.NexusListener
             }
 
             return IsLoggedIn;
+        }
+
+
+        public async Task<bool> Logout()
+        {
+            try
+            {
+                await Dispose();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }
