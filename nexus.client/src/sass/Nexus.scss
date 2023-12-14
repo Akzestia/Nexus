@@ -18,6 +18,14 @@
 
     overflow-x: hidden;
     overflow-y: scroll;
+    
+    padding-top: 3rem;
+    .add-contact-btn{
+        position: absolute;
+        width: 95%;
+        margin: -2.5rem auto 1rem 3%;
+    }
+    
 }
 
 .contact-n-div{
@@ -55,11 +63,10 @@
         opacity: 0.8;
         color: var(--theme-color-font);
     }
-    
 }
 
 .contact-n-div:hover{
-    border: 2px solid var(--theme-color-border-focus-i);
+    border: 2px solid var(--theme-color-border-focus-i) !important;
 }
 
 .chat-x-div{
@@ -117,6 +124,7 @@
             border-bottom: 2px solid var(--theme-color-border-focus-i);
         }
     }
+    
 }
 
 .side-x-div{
@@ -124,4 +132,38 @@
     width: 16%;
     height: 100vh;
     background-color: var(--theme-color-background);
+}
+
+.nav-icons-div{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    position: relative;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid var(--theme-color-border);
+    padding-bottom: 0.4rem;
+}
+
+.current-user-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    user-select: none;
+    img{
+        height: 5.8rem;
+        width: 5.8rem;
+        border-radius: 50%;
+        margin: 0.8rem auto 0.8rem auto;
+        border: 2px solid var(--theme-color-border);
+        background-color: aquamarine;
+    }
+
+    p{
+        color: var(--theme-color-font);
+        font-size: 1.4rem;
+        margin: 0rem auto 2rem auto;
+    }
 }

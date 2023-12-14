@@ -56,14 +56,12 @@ namespace Nexus.Server.Controllers
         {
             ClaimsPrincipal? principal = HttpContext.User;
 
+            Console.WriteLine(principal.Identity.Name);
+
             if (principal.Identity.IsAuthenticated)
-            {
                 return new JsonResult("/nexus");
-            }
             else
-            {
                 return new JsonResult("/login");
-            }
         }
 
         [Route("logout")]

@@ -59,6 +59,10 @@ export default defineConfig({
             '^/darkmode': {
                 target: 'https://localhost:7125/',
                 secure: false
+            },
+            '^/fetchdata': {
+                target: 'https://localhost:7125/',
+                secure: false
             }
         },
         port: 5173,//5173||50051||63430

@@ -23,7 +23,10 @@ namespace Nexus.Server.Controllers
     public class ServerController : ControllerBase
     {
 
-        private ListenerX listener;
+        private static ListenerX listener;
+
+        public static ListenerX ListenerX { get { return listener; } }
+
         private readonly IConfiguration _configuration;
 
         public ServerController(ListenerX server, IConfiguration configuration)
@@ -60,6 +63,7 @@ namespace Nexus.Server.Controllers
         public async Task close()
         {
             await listener.Dispose();
+            await Request.HttpContext.SignOutAsync();
         }
 
         
@@ -74,21 +78,9 @@ namespace Nexus.Server.Controllers
 
         [Route("send")]
         [HttpPost]
-        public JsonResult sendMessage(string message)
-        {
-            //if (listener != null)
-            //{
-            //    await listener.InvokeSend(message);
-            //    return new JsonResult("Good");
-            //}
-            //else
-            //{
-            //    return new JsonResult("Bad");
-
-            //}
-
-
-            return new JsonResult(true);
+        public async Task<JsonResult> sendMessage(Message_Model message)
+        {   
+            return new JsonResult(await listener.SendMessageToUser(message));
         }
 
 

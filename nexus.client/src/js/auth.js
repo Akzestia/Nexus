@@ -51,9 +51,9 @@ export async function SignUpUser() {
       darkmode.addEventListener("click", clickHandler);
     }, 2000);
   } else {
-    loading_label.innerHTML = "Redirecting to Nexus ";
+    loading_label.innerHTML = "Redirecting to Login Page ";
     setTimeout(function () {
-      window.location = "/nexus";
+      window.location = "/login";
     }, 1500);
     setTimeout(function () {
       loading_label.innerHTML = "Connecting to server";
@@ -137,8 +137,8 @@ export async function LoginUser() {
 }
 
 export async function LogOut(){
-
   const response = await fetch(`server/close`, {
     method: "POST",
   });
+  window.location = "/";
 }

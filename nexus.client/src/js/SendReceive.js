@@ -1,18 +1,29 @@
 import { getBuffer } from 'azure-x-lib'
 import { encode } from "uint8-to-base64";
 
-export async function SendMsg() {
-    // var message = "Yo, Azure";
+export async function SendMsg(SenderName, ReceiverName) {
 
-    // const response = await fetch(`user/send/x/${message}`, {
-    //   method: "POST",
-    // });
-  
-    // const data = await response.json();
-  
-    // console.log(data);
+    const _sender = SenderName + '';
+    const _receiver = ReceiverName + '';
+    console.log(_sender + '   ' + _receiver);
+    const message = {
+      TextContent: "HELLO",
+      ByteContent: null,
+      Sender: _sender + "",
+      Receiver: _receiver + ""
+    };
 
-    
+    const response = await fetch('server/send',{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(message),
+    });
+
+    const data = await response.json();
+
+    console.log(data);
 }
 
 async function fileInputChangeHadler(e){
@@ -31,7 +42,5 @@ export async function SetFilesInput(){
     const fileInput = document.getElementById('file-n-input');
 
     fileInput.addEventListener('change',fileInputChangeHadler);
-
-
 }
 

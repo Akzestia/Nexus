@@ -10,6 +10,28 @@ service NexusDb{
     rpc LoginUser(stream LoginUserRequest) returns (stream LoginUserResponse);
 
     rpc LogOutUser(LogOutRequest) returns (LogOutResponse);
+
+    rpc GetContacts(GetContactsRequest) returns (GetContactsResponse);
+}
+message MessageX{
+    string MsgText = 1;
+    string ExtraContent = 2;
+    string SenderName = 3;
+    string ReceiverName = 4;
+}
+
+message GetContactsRequest{
+    string UserName = 1;
+}
+
+message ContactX{
+     string UserName = 1;
+     string LastMessage = 2;
+     bytes UserAvatar = 3;
+}
+
+message GetContactsResponse{
+    repeated ContactX contact_list = 1;
 }
 
 message LogOutRequest{
@@ -28,6 +50,8 @@ message LoginUserRequest{
 message LoginUserResponse{
     string ResponseMessage = 1;
     bool Response = 2;
+    bytes UserAvatar = 3;
+    MessageX message = 4;
 }
 
 message SignUpRequest{

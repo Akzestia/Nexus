@@ -21,23 +21,10 @@ export default class SignUp extends React.Component{
     }
 
     componentDidMount = async () => {
+        
         var inputs = document.querySelectorAll('input');
         LabelFocus(inputs);
         await SetTheme();
-        // const options = {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json; charset=utf-8",
-        //     },
-        //     body: JSON.stringify({
-        //         userNameEmail: "uwu",
-        //         userPassword: "xux"
-        //     })
-        // };
-        // const response = await fetch("user/signup", options);
-        // const data = await response.json();
-
-        // window.location = data;
     }
 
 
@@ -49,14 +36,14 @@ export default class SignUp extends React.Component{
                     <AiOutlineLoading3Quarters className="loading-x-icon"/>
                     <p className="loading-x-label">Connecting to server</p>
             </div>
-            <WiMoonAltThirdQuarter className="theme-icon" onClick={(e) => {
+            <WiMoonAltThirdQuarter className="theme-icon-x" onClick={(e) => {
                 DarkLightTheme();
                 try{
-                    if(e.classList.contains('theme-icon')){
-                        e.classList.remove('theme-icon');
+                    if(e.classList.contains('theme-icon-x')){
+                        e.classList.remove('theme-icon-x');
                     }
                     else{
-                        e.classList.add('theme-icon');
+                        e.classList.add('theme-icon-x');
                     }
                 }
                 catch{}

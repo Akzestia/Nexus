@@ -14,6 +14,22 @@ service Nexus{
     rpc TestConnection(EmptyX) returns (EmptyX);
 
     rpc SendMessageToStreams(CreateMsgRequest) returns (EmptyX);
+
+    rpc SendMessageToUser(SendRequest) returns (SendResponse);
+}
+
+message SendRequest{
+    MessageU message = 1;
+}
+message SendResponse{
+    bool isSended = 1;
+}
+
+message MessageU{
+    string MsgText = 1;
+    bytes ExtraContent = 2;
+    string SenderName = 3;
+    string ReceiverName = 4;
 }
 
 message CreateMsgRequest{

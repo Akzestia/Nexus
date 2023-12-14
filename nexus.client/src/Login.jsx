@@ -21,7 +21,6 @@ export default class Login extends React.Component{
     }
 
     componentDidMount = async () => {
-
         var inputs = document.querySelectorAll('input');
         LabelFocusSmall(inputs);
     }
@@ -35,14 +34,14 @@ export default class Login extends React.Component{
                     <AiOutlineLoading3Quarters className="loading-x-icon"/>
                     <p className="loading-x-label">Connecting to server</p>
                 </div>
-                <WiMoonAltThirdQuarter className="theme-icon" onClick={(e) => {
+                <WiMoonAltThirdQuarter className="theme-icon-x" onClick={(e) => {
                     DarkLightTheme();
                     try{
-                        if(e.classList.contains('theme-icon')){
-                            e.classList.remove('theme-icon');
+                        if(e.classList.contains('theme-icon-x')){
+                            e.classList.remove('theme-icon-x');
                         }
                         else{
-                            e.classList.add('theme-icon');
+                            e.classList.add('theme-icon-x');
                         }
                     }
                     catch{}

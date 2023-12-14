@@ -25,7 +25,7 @@
 
 .x-div-h{
    display: flex;
-   flex-direction: row; 
+   flex-direction: row;
 }
 
 .separator-x-div{
@@ -50,13 +50,47 @@ body{
     display: none;
 }
 
-
-.theme-icon{
+.theme-icon-x{
     height: 2rem;
     width: 2rem;
     position: absolute;
-    right: 1%;
-    top: 0.5rem;
+    margin-top: 0.5rem;
+    right: 0.7rem;
+    color: var(--theme-color-font-icon);
+    transition: all .35s;
+    z-index: 6;
+}
+.theme-icon{
+    height: 2rem;
+    width: 2rem;
+    position: relative;
+    margin-right: 0.3rem;
+    margin-top: 0.5rem;
+    font-size: 2rem;
+    color: var(--theme-color-font-icon);
+    transition: all .35s;
+    z-index: 6;
+}
+.logout-icon{
+    height: 2rem;
+    width: 2rem;
+    position: relative;
+    margin-right: 0.3rem;
+    margin-top: 0.5rem;
+    font-size: 2rem;
+    color: var(--theme-color-font-icon);
+    transition: all .35s;
+    z-index: 6;
+}
+.logout-icon:hover{
+    color: #646cff;
+}
+.settings-icon{
+    height: 2rem;
+    width: 2rem;
+    position: relative;
+    margin-right: 0.3rem;
+    margin-top: 0.5rem;
     font-size: 2rem;
     color: var(--theme-color-font-icon);
     transition: all .35s;

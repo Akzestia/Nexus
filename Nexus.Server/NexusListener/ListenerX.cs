@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using NexusServergRPC;
 using Nexus.Server.Models;
 using Nexus.Server.Encryption;
+using Nexus.Server.Entity;
 
 namespace Nexus.Server.NexusListener
 {
@@ -17,12 +18,18 @@ namespace Nexus.Server.NexusListener
     {
         private const int Keysize = 256;
         private const int DerivationIterations = 1000;
-        private string Name { get; set; }
-        private string Email { get; set; }
-        private GrpcChannel channel;
+        private static string? Name { get; set; }
+        private static byte[]? UserAvatar {  get; set; }
+        private GrpcChannel? channel;
+
         private static bool? IsLoggedIn = null;
         private static bool? IsSignedUp = null;
         private static bool IsConnected = false;
+        private static bool? HasContacts= null;
+        private static bool? HasMessages = null;
+
+        private static List<ContactX>? contacts = null;
+        private static List<MessageX>? messages = null;
 
         private static string? responseMessage = "";
 
@@ -31,10 +38,14 @@ namespace Nexus.Server.NexusListener
         private static AsyncDuplexStreamingCall<ConnectedX, CreateMsgRequest>? call_messages = null;
         private static AsyncDuplexStreamingCall<SignUpRequest, SignUpResponse>? call_signup = null;
         private static AsyncDuplexStreamingCall<LoginUserRequest, LoginUserResponse>? call_login = null;
+        private static AsyncDuplexStreamingCall<GetContactsRequest, GetContactsResponse>? call_contacts = null;
 
         private static Thread? t_call_messages = null;
         private static Thread? t_call_login = null;
         private static Thread? t_call_signup = null;
+        private static Thread? t_call_contacts = null;
+
+        private static MessageX? messageX = null;
 
         private static CancellationTokenSource t_call_messages_cancellationTokenSource = new CancellationTokenSource();
         private static CancellationTokenSource t_call_login_cancellationTokenSource = new CancellationTokenSource();
@@ -42,7 +53,6 @@ namespace Nexus.Server.NexusListener
 
         public bool SetListenerUserData(string name, string email)
         {
-
             return true;
         }
 
@@ -60,7 +70,10 @@ namespace Nexus.Server.NexusListener
                             {
                                 IsLoggedIn = response.Response;
                                 responseMessage = response.ResponseMessage;
-                                await Console.Out.WriteLineAsync($"Login: {response.Response}");
+                                messageX = response.Message;
+                                UserAvatar = response.UserAvatar.ToByteArray();
+
+                                await Console.Out.WriteLineAsync($"Received from: {response.Message.SenderName} +  {response.Message.MsgText}");
                             }
                         }
                         catch
@@ -77,7 +90,6 @@ namespace Nexus.Server.NexusListener
 
             t_call_login.Start();
         }
-
 
         private static void StartThread_SignUp()
         {
@@ -111,6 +123,67 @@ namespace Nexus.Server.NexusListener
             t_call_signup.Start();
         }
 
+        private static void StartThread_Contacts()
+        {
+            t_call_contacts = new Thread(async () =>
+            {
+                while (true)
+                {
+                    if (call_contacts != null)
+                    {
+                        try
+                        {
+                            await foreach (var response in call_contacts.ResponseStream.ReadAllAsync())
+                            {
+                                foreach (var item in response.ContactList)
+                                    contacts?.Add(item);
+                            }
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+                    else
+                    {
+                        //await Console.Out.WriteLineAsync("Null login");
+                    }
+                }
+            });
+
+            t_call_contacts.Start();
+        }
+
+        private static void StartThread_Messages()
+        {
+            t_call_messages = new Thread(async () =>
+            {
+                while (true)
+                {
+                    if (call_messages != null)
+                    {
+                        try
+                        {
+                            await foreach (var response in call_messages.ResponseStream.ReadAllAsync())
+                            {
+                                
+                            }
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+                    else
+                    {
+                        //await Console.Out.WriteLineAsync("Null login");
+                    }
+                }
+            });
+
+            t_call_messages.Start();
+        }
+
         private static void TerminateThread_Login()
         {
             try
@@ -136,11 +209,18 @@ namespace Nexus.Server.NexusListener
 
         }
 
-        private static void ResumeThread_Login()
+        private static void TerminateThread_Contacts()
         {
-            t_call_login_cancellationTokenSource = new CancellationTokenSource();
-        }
+            try
+            {
+                t_call_contacts.Abort();
+            }
+            catch
+            {
+                Console.WriteLine("X - uwux");
+            }
 
+        }
 
         private async Task<bool> EstablishConnection()
         {
@@ -308,6 +388,8 @@ namespace Nexus.Server.NexusListener
                 return new SignUpResponse { Response = (bool)IsSignedUp, ResponseMessage = responseMessage };
             }
 
+            await call_signup.RequestStream.WriteAsync(new SignUpRequest { });
+
             return new SignUpResponse { Response = true, ResponseMessage = responseMessage }; ;
         }
 
@@ -347,6 +429,8 @@ namespace Nexus.Server.NexusListener
 
             await call_login.RequestStream.WriteAsync(new LoginUserRequest { });
 
+            Name = user.UserName;
+ 
             return new LoginUserResponse { Response = true, ResponseMessage = responseMessage };
         }
 
@@ -363,6 +447,57 @@ namespace Nexus.Server.NexusListener
             {
                 return false;
             }
+        }
+
+        public async Task<List<ContactX>?> GetContactsRPC(string userName)
+        {
+            if (!await EstablishConnection())
+                return null;
+
+            contacts = new List<ContactX>();
+
+            var response = await clientDb.GetContactsAsync(new GetContactsRequest { UserName = userName });
+
+            foreach (var item in response.ContactList)
+            {
+                contacts.Add(item);
+            }
+
+            return contacts;
+        }
+
+        public async Task<List<Message>?> GetMessagesRPC()
+        {
+
+            if (!await EstablishConnection())
+                return null;
+
+            return null;
+        }
+
+        public async Task<CurrentUser_Model> GetCurrentUserRPC()
+        {
+            await Console.Out.WriteLineAsync("");
+            return new CurrentUser_Model { UserAvatar = UserAvatar, UserName = Name };
+        }
+
+        public async Task<bool> SendMessageToUser(Message_Model message)
+        {
+            ByteString bs = ByteString.CopyFrom(new byte[1]);
+            MessageU m = new MessageU
+            {
+                MsgText = message.TextContent,
+                ExtraContent = bs,
+                ReceiverName = message.Receiver,
+                SenderName = message.Sender,
+            };
+           
+            var response = await client.SendMessageToUserAsync(new SendRequest
+            {
+                Message = m
+            }); ;
+
+            return response.IsSended;
         }
     }
 }

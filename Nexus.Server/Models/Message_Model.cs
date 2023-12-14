@@ -4,17 +4,17 @@
     {
         public string? TextContent { get; set; }
         public byte[]? ByteContent { get; set; }
-        public int SenderId { get; set; }
-        public int ReceiverId { get; set; }
+        public string? Sender { get; set; }
+        public string? Receiver { get; set; }
 
         public Message_Model() { }
 
-        public Message_Model(string? textContent, byte[]? byteContent, int senderId, int receiverId)
+        public Message_Model(string? textContent, byte[]? byteContent, string sender, string receiver)
         {
             TextContent = textContent;
             ByteContent = byteContent;
-            SenderId = senderId;
-            ReceiverId = receiverId;
+            Sender = sender;
+            Receiver = receiver;
         }
     }
 }
