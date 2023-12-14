@@ -79,7 +79,7 @@ namespace Nexus.Server.Controllers
         [Route("send")]
         [HttpPost]
         public async Task<JsonResult> sendMessage(Message_Model message)
-        {   
+        {
             return new JsonResult(await listener.SendMessageToUser(message));
         }
 

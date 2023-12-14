@@ -3,11 +3,18 @@ import { encode } from "uint8-to-base64";
 
 export async function SendMsg(SenderName, ReceiverName) {
 
+    if(ReceiverName.length < 2 || document.getElementById('message-n-input').value.trim().length <= 0){
+      return;
+    }
+    else{
+      alert(ReceiverName);
+    }
+
     const _sender = SenderName + '';
     const _receiver = ReceiverName + '';
     console.log(_sender + '   ' + _receiver);
     const message = {
-      TextContent: "HELLO",
+      TextContent: document.getElementById('message-n-input').value,
       ByteContent: null,
       Sender: _sender + "",
       Receiver: _receiver + ""
@@ -24,6 +31,8 @@ export async function SendMsg(SenderName, ReceiverName) {
     const data = await response.json();
 
     console.log(data);
+
+    document.getElementById('message-n-input').value = '';
 }
 
 async function fileInputChangeHadler(e){

@@ -13,7 +13,7 @@
     position: relative;
     width: 16%;
     min-width: 13.5625rem;
-    height: 100vh;
+    height: calc(100vh - 3rem);
     background-color: var(--theme-color-background);
 
     overflow-x: hidden;
@@ -23,7 +23,7 @@
     .add-contact-btn{
         position: absolute;
         width: 95%;
-        margin: -2.5rem auto 1rem 3%;
+        margin: -2.3rem auto 1rem 3%;
     }
     
 }
@@ -75,34 +75,45 @@
     position: relative;
     width: 68%;
     min-width: 55rem;
-    height: 100vh;
+    height: calc(100vh - 4rem);
+    max-height: 100vh;
+    
     border: 2px solid var(--theme-color-border);
     border-top: none;
     border-bottom: none;
     box-sizing: border-box;
     background-color: var(--theme-color-background);
 
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    padding-bottom: 4rem;
     .input-n-div{
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
-        position: absolute;
+        position: fixed;
+        min-width: 879.93px;
         min-height: 5.3rem;
         height: auto;
-        width: 100%;
+        width: 67.95%;
+        margin-left: -0.1rem;
         bottom: 0;
         border: none;
         border-top: 2px solid var(--theme-color-border);
-        box-sizing: border-box;
+        border-left: 2px solid var(--theme-color-border);
+        border-right: 2px solid var(--theme-color-border);
         background-color: transparent;
-
+        background-color: var(--theme-color-background);
+        box-sizing: border-box;
+        z-index: 8;
         .textarea-n{
             margin: 1.4rem 0 1.5rem 1rem;
-            min-width: 30rem;
+            min-width: 28rem;
             height: 48px;
             position: relative;
             color: var(--theme-color-font);
-            width: 85%;
+            width: 88%;
             max-height: 10rem;
             background-color: transparent;
             font-size: 1.3rem;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Nexus.Server.Entity;
 using Nexus.Server.Models;
+using Nexus.Server.NexusListener;
 using NexusServergRPC;
 namespace Nexus.Server.Controllers
 {
@@ -30,21 +31,21 @@ namespace Nexus.Server.Controllers
 
         [Route("getMessages/{sender}/{receiver}")]
         [HttpGet]
-        public async Task<List<Message>> GetMessages()
+        public async Task<List<Message_GET_Model>> GetMessages(string sender, string receiver)
         {
-            var messages = new List<Message>();
+            var x = await ServerController.ListenerX.GetMessagesRPC(sender, receiver);
 
-            return messages;
+            return x;
         }
 
 
-        //[Route("getMessages")]
-        //[HttpGet]
-        //public async Task<List<Message>> ListenMessages()
-        //{
-            
-        //    return messages;
-        //}
+        [Route("getMessages")]
+        [HttpGet]
+        public async Task<Message_GET_Model> ListenMessages()
+        {
+            var temp = await ServerController.ListenerX.ListenMessagesRPC();
+            return temp;
+        }
 
 
         [Route("getCurrentUser")]

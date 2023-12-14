@@ -1,0 +1,132 @@
+
+
+.message-n-div-s{
+    position: relative;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    padding-right: 1rem;
+    padding-top: 2rem;
+    margin: 0.5rem -1.5rem 0.5rem;
+
+
+    .message-div-x{
+        display: flex;
+        flex-direction: column;
+        min-width: 10rem;
+        max-width: 30rem;
+        width: auto;
+        min-height: 2rem;
+        height: auto;
+        border-radius: 0.88rem;
+        background-color: aquamarine;
+        background-color: var(--theme-color-background);
+        border: 2px solid var(--theme-color-border);
+        margin-right: 1rem;
+        color: var(--theme-color-font);
+
+        .message-div{
+            display: flex;
+            flex-direction: row-reverse;
+            min-width: 10rem;
+            width: auto;
+            min-height: 1rem;
+            height: auto;
+            border-radius: 0.88rem;
+    
+            .username-n{
+                margin-right: 0.7rem;
+                margin-top: 0.3rem;
+            }
+    
+        }
+
+        .textdiv{
+            position: relative;
+            width: 96%;
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            padding: 2%;
+            margin: 0rem 0.7rem 0.5rem 0.7rem;
+
+            .message-text-n{
+                margin-right: 0.7rem;
+                margin-top: 0.3rem;
+                overflow: wrap;
+            }
+        }
+    }
+   
+}
+
+.message-n-div-r{
+    position: relative;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding-left: 1rem;
+    padding-top: 2rem;
+    margin: 0.5rem 1rem 0.5rem;
+    .message-div-x{
+        max-width: 30rem;
+        display: flex;
+        flex-direction: column;
+        min-width: 10rem;
+        width: auto;
+        min-height: 2rem;
+        height: auto;
+        border-radius: 0.88rem;
+        background-color: aquamarine;
+        background-color: var(--theme-color-background);
+        border: 2px solid var(--theme-color-border);
+        margin-left: 1rem;
+        color: var(--theme-color-font);
+
+        .message-div{
+            display: flex;
+            flex-direction: row;
+            min-width: 10rem;
+            width: auto;
+            min-height: 1rem;
+            height: auto;
+            border-radius: 0.88rem;
+    
+            .username-n{
+                margin-left: 0.7rem;
+                margin-top: 0.3rem;
+            }
+    
+        }
+
+        .textdiv{
+            position: relative;
+            width: 96%;
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            padding: 2%;
+            margin: 0rem 0.7rem 0.5rem 0.7rem;
+
+            .message-text-n{
+                margin-right: 0.7rem;
+                margin-top: 0.3rem;
+                overflow: wrap;
+                word-wrap: break-word;
+            }
+        }
+    }
+}
+
+
+
+.u-border-img{
+    position: relative;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+}

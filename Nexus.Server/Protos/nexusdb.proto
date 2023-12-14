@@ -13,6 +13,15 @@ service NexusDb{
 
     rpc GetContacts(GetContactsRequest) returns (GetContactsResponse);
 }
+
+message MessageXUX{
+    string MsgText = 1;
+    bytes ExtraContent = 2;
+    bytes SenderAvatar = 3;
+    bytes ReceiverAvatar = 4;
+    string SenderName = 5;
+}
+
 message MessageX{
     string MsgText = 1;
     string ExtraContent = 2;
@@ -52,6 +61,7 @@ message LoginUserResponse{
     bool Response = 2;
     bytes UserAvatar = 3;
     MessageX message = 4;
+    MessageXUX MessageXUX = 5;
 }
 
 message SignUpRequest{

@@ -29,7 +29,7 @@ namespace Nexus.Server.NexusListener
         private static bool? HasMessages = null;
 
         private static List<ContactX>? contacts = null;
-        private static List<MessageX>? messages = null;
+        private static List<Message_GET_Model>? messages = null;
 
         private static string? responseMessage = "";
 
@@ -46,6 +46,7 @@ namespace Nexus.Server.NexusListener
         private static Thread? t_call_contacts = null;
 
         private static MessageX? messageX = null;
+        private static MessageXUX? messageXUX = null;
 
         private static CancellationTokenSource t_call_messages_cancellationTokenSource = new CancellationTokenSource();
         private static CancellationTokenSource t_call_login_cancellationTokenSource = new CancellationTokenSource();
@@ -72,8 +73,9 @@ namespace Nexus.Server.NexusListener
                                 responseMessage = response.ResponseMessage;
                                 messageX = response.Message;
                                 UserAvatar = response.UserAvatar.ToByteArray();
-
+                                messageXUX = response.MessageXUX;
                                 await Console.Out.WriteLineAsync($"Received from: {response.Message.SenderName} +  {response.Message.MsgText}");
+                             
                             }
                         }
                         catch
@@ -240,7 +242,11 @@ namespace Nexus.Server.NexusListener
             {
                 try
                 {
-                    channel = GrpcChannel.ForAddress("https://localhost:7046");
+                    channel = GrpcChannel.ForAddress("https://localhost:7046", new GrpcChannelOptions
+                    {
+                        MaxSendMessageSize = int.MaxValue,
+                        MaxReceiveMessageSize = int.MaxValue,
+                    });
                     client = new Nexus.NexusClient(channel);
                     clientDb = new NexusDb.NexusDbClient(channel);
 
@@ -466,13 +472,34 @@ namespace Nexus.Server.NexusListener
             return contacts;
         }
 
-        public async Task<List<Message>?> GetMessagesRPC()
+        public async Task<List<Message_GET_Model>?> GetMessagesRPC(string _sender, string _receiver)
         {
 
             if (!await EstablishConnection())
                 return null;
 
-            return null;
+
+            var temp = await client.GetMessagesForUserAsync(new GetRequest
+            {
+                SenderName = _sender,
+                ReceiverName = _receiver,
+            });
+
+            List<Message_GET_Model> list = new List<Message_GET_Model>();
+
+            foreach(var item in temp.Messages)
+            {
+                list.Add(new Message_GET_Model
+                {
+                    MsgText = item.MsgText,
+                    ExtraContent = item.ExtraContent.ToByteArray(),
+                    ReceiverAvatar = item.ReceiverAvatar.ToByteArray(),
+                    SenderAvatar = item.SenderAvatar.ToByteArray(),
+                    SenderName = item.SenderName,
+                });
+            }
+           
+            return list;
         }
 
         public async Task<CurrentUser_Model> GetCurrentUserRPC()
@@ -481,8 +508,11 @@ namespace Nexus.Server.NexusListener
             return new CurrentUser_Model { UserAvatar = UserAvatar, UserName = Name };
         }
 
-        public async Task<bool> SendMessageToUser(Message_Model message)
+        public async Task<bool?> SendMessageToUser(Message_Model message)
         {
+            if (!await EstablishConnection())
+                return null;
+
             ByteString bs = ByteString.CopyFrom(new byte[1]);
             MessageU m = new MessageU
             {
@@ -498,6 +528,29 @@ namespace Nexus.Server.NexusListener
             }); ;
 
             return response.IsSended;
+        }
+
+
+        public async Task<Message_GET_Model> ListenMessagesRPC()
+        {
+            while(messageXUX == null)
+            {   
+
+            }
+
+            await Console.Out.WriteLineAsync(messageXUX.MsgText);
+
+            Message_GET_Model temp = new Message_GET_Model {
+                MsgText = messageXUX.MsgText,
+                ReceiverAvatar = messageXUX.ReceiverAvatar.ToByteArray(),
+                SenderAvatar = messageXUX.SenderAvatar.ToByteArray(),
+                SenderName = messageXUX.SenderName,
+            };
+
+            messageXUX = null;
+
+
+            return temp;
         }
     }
 }

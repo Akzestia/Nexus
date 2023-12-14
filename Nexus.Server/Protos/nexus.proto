@@ -16,6 +16,25 @@ service Nexus{
     rpc SendMessageToStreams(CreateMsgRequest) returns (EmptyX);
 
     rpc SendMessageToUser(SendRequest) returns (SendResponse);
+
+    rpc GetMessagesForUser(GetRequest) returns (GetResponse);
+}
+
+message GetRequest{
+    string ReceiverName = 1;
+    string SenderName = 2;  
+}
+
+message GetResponse{
+    repeated MessageGet messages = 1;
+}
+
+message MessageGet{
+    string MsgText = 1;
+    bytes ExtraContent = 2;
+    bytes SenderAvatar = 3;
+    bytes ReceiverAvatar = 4;
+    string SenderName = 5;
 }
 
 message SendRequest{
