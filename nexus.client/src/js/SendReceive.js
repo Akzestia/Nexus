@@ -7,7 +7,7 @@ export async function SendMsg(SenderName, ReceiverName) {
       return;
     }
     else{
-      alert(ReceiverName);
+      
     }
 
     const _sender = SenderName + '';
